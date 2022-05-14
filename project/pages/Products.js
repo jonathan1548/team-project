@@ -1,49 +1,202 @@
+import React, {useEffect, useState} from "react";
+import {StyleSheet, Text, View,TouchableOpacity, FlatList} from 'react-native';
+import { Card , Button} from 'react-native-paper';
+import { IconButton} from 'react-native-paper';
+import Product from "./Product";
+import {getCities, subscribe} from "../db/cities/Cities";
+import {editUsers, getUsers , subscribeUsers} from "../db/cities/Users";
+import {auth} from "../db/config";
+export default function Products({navigation}) {
+    const getCitiesList = async () => {
+        const c = await getCities();
+        setCities(c);
+    };
+    useEffect(() => {
+        getCitiesList();
+    }, []);
 
-import { StatusBar } from 'expo-status-bar';
-import {ScrollView, StyleSheet, TextInput, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
-import Product from './Product';
-import {  Button } from 'react-native-paper';
-import {login, logOut} from '../db/auth/auth';
-export default function Products() {
-    const data = [
-        { text: "http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Love-Images-1.jpg" },
-        { text: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80" },
-        { text: "https://media.istockphoto.com/photos/mountain-landscape-picture-id517188688?k=20&m=517188688&s=612x612&w=0&h=i38qBm2P-6V4vZVEaMy_TaTEaoCMkYhvLCysE7yJQ5Q=" },
-        { text: "https://images.ctfassets.net/hrltx12pl8hq/1kSlS6H6YMm30e0Mkr86Hc/930fef722ebc9fb51f80d8bb0e372596/IHP_3_24.png?fit=fill&w=1200&h=630" },
-        { text: "https://image.shutterstock.com/image-photo/sunset-coast-lake-nature-landscape-260nw-1960131820.jpg" },
-        { text: "https://i.pinimg.com/236x/7b/e2/db/7be2dbac345f7c212f295b4464ef91af.jpg" },
+    useEffect(() => {
+        const unsubscribe = subscribe(({ change, snapshot }) => {
+            if (change.type === "added") {
+                getCitiesList();
+            }
+            if (change.type === "modified") {
+                getCitiesList();
+            }
+            if (change.type === "removed") {
+                getCitiesList();
+            }
+        });
 
-    ]
-    const data2 = [
-        { text: "http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Love-Images-1.jpg" },
-        { text: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&w=1000&q=80" },
-        { text: "https://media.istockphoto.com/photos/mountain-landscape-picture-id517188688?k=20&m=517188688&s=612x612&w=0&h=i38qBm2P-6V4vZVEaMy_TaTEaoCMkYhvLCysE7yJQ5Q=" },
-        { text: "https://images.ctfassets.net/hrltx12pl8hq/1kSlS6H6YMm30e0Mkr86Hc/930fef722ebc9fb51f80d8bb0e372596/IHP_3_24.png?fit=fill&w=1200&h=630" },
-        { text: "https://image.shutterstock.com/image-photo/sunset-coast-lake-nature-landscape-260nw-1960131820.jpg" },
-        { text: "https://i.pinimg.com/236x/7b/e2/db/7be2dbac345f7c212f295b4464ef91af.jpg" },
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
-    ]
+    const getUsersList = async () => {
+        const c = await getUsers();
+        setUsers(c);
+        const user = c.find(e => e.email === auth.currentUser.email)
+        setCount(user.cart.length)
+    };
+    useEffect(() => {
+        getUsersList();
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = subscribeUsers(({ change, snapshot }) => {
+            if (change.type === "added") {
+                getUsersList();
+            }
+            if (change.type === "modified") {
+                getUsersList();
+            }
+            if (change.type === "removed") {
+                getUsersList();
+            }
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    const [users , setUsers] = useState([]);
+    const [cities, setCities] = useState([]);
+    const data = cities.filter((e)=>(e.type=="appetizers"));
+    data.map((e,index)=>(<Product item={e} key={index} />))
+    const data2 = cities.filter((e)=>(e.type=="Eastern"));
+    {data2.map((e,index)=>(<Product item={e} key={index} />))}
+    const data3 = cities.filter((e)=>(e.type=="SugarFreeSweets"));
+    {data3.map((e,index)=>(<Product item={e} key={index} />))}
+    const data4 = cities.filter((e)=>(e.type=="HamperBox"));
+    {data4.map((e,index)=>(<Product item={e} key={index} />))}
+    const [count, setCount] = useState(0);
+
+    const addtocart = async (id)  => {
+        const array = await getUsers()
+        const user = array.find(e => e.email === auth.currentUser.email)
+        const UserCart = user.cart
+        editUsers({
+            ...user,
+            cart:[...UserCart , id],
+        })
+    }
     return (
-
-        <ScrollView>
+        <View style={{ backgroundColor: '#d3d3d3' }}>
             <View>
+                    <IconButton style={[styles.iconView]}
+                        icon="cart-outline"
+                        size={20}
+                        onPress={() => {navigation.navigate('payment')}}
+                    />
+                    <View style={[styles.iconCountView]}>
+                        <Text style={styles.iconCountText}>{count}</Text>
+                    </View>
+                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Sweet Group</Text>
+                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                        <FlatList
+                            data={data}
+                            numColumns={2}
+                            renderItem={ (itemData ) => (
+                                <TouchableOpacity style={{ flex: 1 }}>
+                                    <Card
+                                        style={{
+                                            margin: 5,
+                                            padding: 10,
+                                        }}
+                                        onPress={() => addtocart(itemData.item.id)}>
 
-                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>fffffff</Text>
-                <ScrollView  >
-
-                    {data.map((e, index) => (<Product text={e.text} key={index} />))}
-                </ScrollView>
+                                        <Card.Cover source={{ uri: itemData.item.image }}
+                                        />
+                                        <Card.Actions>
+                                            <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                        </Card.Actions>
+                                    </Card>
+                                </TouchableOpacity>
+                            ) }
+                        />
+                </View>
             </View>
             <View>
-                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>ddddd</Text>
-
-                <ScrollView  >
-                    {data2.map((e, index) => (<Product text={e.text} key={index} />))}
-                </ScrollView>
+                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Eastern sweets</Text>
+                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                    <FlatList
+                        data={data2}
+                        numColumns={2}
+                        renderItem={ (itemData2 ) => (
+                            <TouchableOpacity style={{ flex: 1 }}>
+                                <Card
+                                    style={{
+                                        margin: 5,
+                                        padding: 10,
+                                    }}
+                                    onPress={() => {setCount(count + 1)}}>
+                                    <Card.Cover source={{ uri: itemData2.item.image }}
+                                                style={{  }}
+                                    />
+                                    <Card.Actions>
+                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                    </Card.Actions>
+                                </Card>
+                            </TouchableOpacity>
+                        ) }
+                    />
+                </View>
             </View>
-        </ScrollView>
+            <View>
+                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Sugar Free Sweets</Text>
+                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                    <FlatList
+                        data={data3}
+                        numColumns={2}
+                        renderItem={ (itemData3 ) => (
+                            <TouchableOpacity style={{ flex: 1 }}>
+                                <Card
+                                    style={{
+                                        margin: 5,
+                                        padding: 10,
+                                    }}
+                                    onPress={() => {setCount(count + 1)}}>
+                                    <Card.Cover source={{ uri: itemData3.item.image }}
+                                    />
+                                    <Card.Actions>
+                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                    </Card.Actions>
+                                </Card>
+                            </TouchableOpacity>
+                        ) }
+                    />
+                </View>
+            </View>
+            <View>
+                <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Hamper Boxs</Text>
+                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                    <FlatList
+                        data={data4}
+                        numColumns={2}
+                        renderItem={ (itemData4 ) => (
+                            <TouchableOpacity style={{ flex: 1 }}>
+                                <Card
+                                    style={{
+                                        margin: 5,
+                                        padding: 10,
+                                    }}
+                                    onPress={() => {setCount(count + 1)}}>
+                                    <Card.Cover source={{ uri: itemData4.item.image }}
+                                    />
+                                    <Card.Actions>
+                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                    </Card.Actions>
+                                </Card>
+                            </TouchableOpacity>
+                        ) }
+                    />
+                </View>
+            </View>
+        </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -56,15 +209,24 @@ const styles = StyleSheet.create({
     textWithShadow: {
         fontSize: 28,
         fontWeight: 500,
-
-        color: '#000',
-
+        // color: '#000',
         textAlign: 'left'
+    },
+    listItem: {
+        margin: 10,
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
     },
     card: {
         backgroundColor: 'white',
         borderRadius: 8,
-        
         paddingHorizontal: 10,
         marginVertical: 1,
         marginHorizontal: 1,
@@ -72,7 +234,7 @@ const styles = StyleSheet.create({
     shadowProp: {
         shadowColor: '#171717',
         shadowOffset: { width: -2, height: 4 },
-        //shadowOpacity: 0.2,
+        shadowOpacity: 0.2,
         shadowRadius: 3,
         margin: 1,
     },
@@ -94,5 +256,28 @@ const styles = StyleSheet.create({
         height: 30,
         resizeMode: 'contain',
         tintColor:'#FFFFFF'
+    },
+    iconCountView: {
+        position: 'absolute',
+        zIndex: 2,
+        right: 4,
+        top: 5,
+        paddingHorizontal: 4,
+        borderRadius: 10,
+        backgroundColor: 'red',
+    },
+    iconView: {
+        position: 'absolute',
+        zIndex: 2,
+        right: 4,
+        top: 2,
+        paddingHorizontal: 4,
+        borderRadius: 10,
+        backgroundColor: '#fff',
+    },
+    iconCountText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontFamily: 'SSBold'
     },
 });

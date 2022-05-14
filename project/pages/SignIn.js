@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import { TextInput , Button ,Avatar } from 'react-native-paper';
+import { TextInput , Button , HelperText } from 'react-native-paper';
 
 import {
   StyleSheet,
@@ -12,37 +12,17 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-// import CitiesList from '../componant/cities/CitiesList';
-// import Register from '../componant/Users/Register';
 import { login } from '../db/auth/auth';
 import { auth } from '../db/Config';
 
 export default function SignIn({ navigation }) {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
-  const [flag, setflag] = useState(false);
-
-  let users =[
-    {
-      user : 'john',
-      pass : '1234'
-    }
-  ]
-  const check =() =>{
-    for(let i =0 ; i < users.length ;i++){
-      if (users[0].user===username && users[0].pass===password){
-        setflag(true)
-        return navigation.navigate('Menu')
-      }
-      else alert(
-          "UserName or Password is wrong"
-      )
-    }
-    setflag(false)
-  }
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailAddressValid, setEmailAddressValid] = useState(true);
 
   return (
-      <ScrollView style={{padding: 30}}>
+      <ScrollView style={{padding: 30 ,   backgroundColor: '#FFFFFF'}}>
 
         <View style={[styles.container]}>
           <View>
@@ -50,7 +30,7 @@ export default function SignIn({ navigation }) {
                 style={{
                   resizeMode: "contain",
                   height: 200,
-                  width: 300
+                  width: 200
                 }}
                 source={require("../assets/2.png")}/>
           </View>
@@ -59,9 +39,18 @@ export default function SignIn({ navigation }) {
               <TextInput
                   mode ="flat"
                   label="Email"
+                  left={<TextInput.Icon name={'email'} />}
+                  keyboardType={'email-address'}
                   value={username}
                   onChangeText={setusername}
+                  onBlur={() =>
+                      username.length > 0 &&
+                      setEmailAddressValid(username.includes('@'))
+                  }
               />
+              <HelperText type="error" visible={!emailAddressValid}>
+                Email address is invalid!
+              </HelperText>
             </View>
             <View style={[styles.TextInput]}>
               <TextInput
@@ -69,7 +58,14 @@ export default function SignIn({ navigation }) {
                   label="password"
                   onChangeText={setPassword}
                   value ={password}
-                  secureTextEntry={true}
+                  left={<TextInput.Icon name={'lock'} />}
+                  right={
+                    <TextInput.Icon
+                        name={showPassword ? 'eye' : 'eye-off'}
+                        onPress={() => setShowPassword(!showPassword)}
+                    />
+                  }
+                  secureTextEntry={!showPassword}
               />
             </View>
             <View>
@@ -94,7 +90,6 @@ export default function SignIn({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     flexDirection : 'column',
     justifyContent: 'center',
@@ -103,12 +98,10 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#8f8f8f',
-    justifyContent: 'center',
     height: 40,
-    margin: 12,
-    padding: 10,
+    margin: 5,
+    padding: 5,
   },
 
   buttonStyle: {
