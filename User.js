@@ -25,4 +25,5 @@ async function addUser(user) {
     await setDoc(doc(firestoreDB, "users", user.id), user);
 }
 
+
 export {getUsers, addUser};

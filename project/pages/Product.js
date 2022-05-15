@@ -1,18 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 
-export default function Product({ text, navigation }) {
+export default function Product({  navigation,item }) {
+  console.log("item",item);
   return (<View>
-    <View style={[styles.card, styles.shadowProp]}>
-      <Image style={{ height: 230, width: 200 }} source={{ uri: text }}></Image>
-
-
-    </View>
-
-  </View>
+        <View style={[styles.card, styles.shadowProp]}>
+          <Image  style={{height:230,width:200}} source={{ uri: item.image }}/>
+          <Text>{item.name}</Text>
+          <Text>EGP {item.price}</Text>
+        </View>
+      </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

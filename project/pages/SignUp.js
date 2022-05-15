@@ -2,24 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View ,Image,ScrollView } from 'react-native';
-import { TextInput , Button } from 'react-native-paper';
+import { TextInput , Button , HelperText } from 'react-native-paper';
 import SwitchSelector from 'react-native-switch-selector';
 import * as React from "react";
-// import { login } from '../db/auth/auth';
-// import { auth } from '../db/Config';
+import {addUsers} from '../db/cities/Users';
+import {register} from "../db/auth/Auth";
 
 export default function SignUp({ navigation }) {
     const [FirstName, setFirstName] = useState("");
     const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-    const [ConfirmEmail, setConfirmEmail] = useState("");
   const [password, setpassword] = useState("");
     const [address, setaddress] = useState("");
   const [confirmPassword, setCpassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [CshowPassword, setCShowPassword] = useState(false);
+    const [emailAddressValid, setEmailAddressValid] = useState(true);
     const options = [
         { label: 'Male', value: '0' },
         { label: 'Female', value: '1' },
     ];
+
+    const done=()=>{
+       register(email,password).then(()=> addUsers({
+           username:FirstName,
+           email:email,
+           password:password,
+           address:address,
+           cart:[]
+       }).then(()=>navigation.navigate('Menu')))
+    }
 
   return (
       <ScrollView>
@@ -48,6 +60,7 @@ export default function SignUp({ navigation }) {
                         mode ="flat"
                         label="First Name"
                         value={FirstName}
+                        left={<TextInput.Icon name={'account'} />}
                         onChangeText={setFirstName}
 
                     />
@@ -59,6 +72,7 @@ export default function SignUp({ navigation }) {
                         mode ="flat"
                         label="last name"
                         value={LastName}
+                        left={<TextInput.Icon name={'account'} />}
                         onChangeText={setLastName}
                     />
                 </View>
@@ -76,19 +90,17 @@ export default function SignUp({ navigation }) {
                         mode ="flat"
                         label="Email"
                         value={email}
+                        keyboardType={'email-address'}
+                        left={<TextInput.Icon name={'email'} />}
                         onChangeText={setEmail}
-
+                        onBlur={() =>
+                            email.length > 0 &&
+                            setEmailAddressValid(email.includes('@'))
+                        }
                     />
-                </View>
-                <View  style={[
-                    styles.TextInput ,
-                ]}>
-                    <TextInput
-                        mode ="flat"
-                        label="Confirm Email"
-                        value={ConfirmEmail}
-                        onChangeText={setConfirmEmail}
-                    />
+                    <HelperText type="error" visible={!emailAddressValid}>
+                        Email address is invalid!
+                    </HelperText>
                 </View>
             </View>
             <View  style={{
@@ -105,7 +117,14 @@ export default function SignUp({ navigation }) {
                         label="Password"
                         value={password}
                         onChangeText={setpassword}
-                        secureTextEntry={true}
+                        left={<TextInput.Icon name={'lock'} />}
+                        right={
+                            <TextInput.Icon
+                                name={showPassword ? 'eye' : 'eye-off'}
+                                onPress={() => setShowPassword(!showPassword)}
+                            />
+                        }
+                        secureTextEntry={!showPassword}
                     />
                 </View>
                 <View  style={[
@@ -116,7 +135,14 @@ export default function SignUp({ navigation }) {
                         label="Confirm Password"
                         value={confirmPassword}
                         onChangeText={setCpassword}
-                        secureTextEntry={true}
+                        left={<TextInput.Icon name={'lock'} />}
+                        right={
+                            <TextInput.Icon
+                                name={CshowPassword ? 'eye' : 'eye-off'}
+                                onPress={() => setCShowPassword(!CshowPassword)}
+                            />
+                        }
+                        secureTextEntry={!CshowPassword}
                     />
                 </View>
             </View>
@@ -127,13 +153,14 @@ export default function SignUp({ navigation }) {
                     mode ="flat"
                     label="Address"
                     value={address}
+                    left={<TextInput.Icon name={'map-marker'} />}
                     onChangeText={setaddress}
                 />
             </View>
             <View>
                 <SwitchSelector
                     options={options}
-                    initial={1}
+                    initial={0}
                     fontSize={18}
                     textColor={"#fff5f5"}
                     selectedColor={'#ffffff'}
@@ -143,7 +170,7 @@ export default function SignUp({ navigation }) {
                 />
             </View>
             <View style={{ padding: 10 }}>
-                <Button icon="login" mode="contained"  onPress={() => navigation.navigate('Menu')}>
+                <Button icon="login" mode="contained"  onPress={() => done()}>
                     Register
                 </Button>
           </View>
@@ -151,7 +178,6 @@ export default function SignUp({ navigation }) {
 
         </View>
 </ScrollView>
-        // user ? <CitiesList /> : <Register />
   );
 }
 
@@ -167,7 +193,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#8f8f8f',
         padding: 10,
-        alignItems: 'center',
+
     },
   buttonStyle: {
     backgroundColor: 'black',
@@ -184,7 +210,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 500,
     color: '#000',
-
     textAlign: 'left'
   },
   card: {

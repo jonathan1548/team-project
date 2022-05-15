@@ -46,15 +46,15 @@ async function addCity(city) {
 
 function subscribe(callback) {
   const unsubscribe = onSnapshot(
-    query(collection(db, "products")),
-    (snapshot) => {
-      const source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
-      snapshot.docChanges().forEach((change) => {
-        // console.log("changes", change, snapshot.metadata);
-        if (callback) callback({ change, snapshot });
-      });
-      // console.log(source, " data: ", snapshot.data());
-    }
+      query(collection(db, "products")),
+      (snapshot) => {
+        const source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
+        snapshot.docChanges().forEach((change) => {
+          // console.log("changes", change, snapshot.metadata);
+          if (callback) callback({ change, snapshot });
+        });
+        // console.log(source, " data: ", snapshot.data());
+      }
   );
   return unsubscribe;
 }
