@@ -12,6 +12,7 @@ const Search = () => {
 		setCities(c);
 	};
 
+	
 	useEffect(() => {
 		getCitiesList();
 	}, []);

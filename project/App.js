@@ -25,7 +25,6 @@ const TabArr = [
     { route: 'Home', label: 'Home', type: Icons.Ionicons, activeIcon: 'home-outline', inActiveIcon: 'home-outline', component: Home },
     { route: 'payment', label: 'payment', type: Icons.Ionicons, activeIcon: 'cart', inActiveIcon: 'cart-outline', component: Payment },
     { route: 'Search', label: 'Search', type: Icons.Ionicons, activeIcon: 'search-circle', inActiveIcon: 'search-circle-outline', component: Search },
-
     { route: 'Profile', label: 'Profile', type: Icons.Ionicons, activeIcon: 'person-circle', inActiveIcon: 'person-circle-outline', component: Profile },
 ];
 
