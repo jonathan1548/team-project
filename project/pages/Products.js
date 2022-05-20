@@ -5,7 +5,7 @@ import { IconButton} from 'react-native-paper';
 import Product from "./Product";
 import {getCities, subscribe} from "../db/cities/Cities";
 import {editUsers, getUsers , subscribeUsers} from "../db/cities/Users";
-import {auth} from "../db/config";
+import {auth} from "../db/Config";
 export default function Products({navigation}) {
     const getCitiesList = async () => {
         const c = await getCities();
@@ -64,12 +64,16 @@ export default function Products({navigation}) {
     const [cities, setCities] = useState([]);
     const data = cities.filter((e)=>(e.type=="appetizers"));
     data.map((e,index)=>(<Product item={e} key={index} />))
+
     const data2 = cities.filter((e)=>(e.type=="Eastern"));
     {data2.map((e,index)=>(<Product item={e} key={index} />))}
+
     const data3 = cities.filter((e)=>(e.type=="SugarFreeSweets"));
     {data3.map((e,index)=>(<Product item={e} key={index} />))}
+
     const data4 = cities.filter((e)=>(e.type=="HamperBox"));
     {data4.map((e,index)=>(<Product item={e} key={index} />))}
+    
     const [count, setCount] = useState(0);
 
     const addtocart = async (id)  => {
