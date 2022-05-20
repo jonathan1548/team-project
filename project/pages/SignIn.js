@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import { TextInput , Button , HelperText } from 'react-native-paper';
+import { TextInput, Button, HelperText } from 'react-native-paper';
 
 import {
   StyleSheet,
@@ -22,68 +22,68 @@ export default function SignIn({ navigation }) {
   const [emailAddressValid, setEmailAddressValid] = useState(true);
 
   return (
-      <ScrollView style={{padding: 30 ,   backgroundColor: '#FFFFFF'}}>
+    <ScrollView style={{ padding: 30, backgroundColor: '#FFFFFF' }}>
 
-        <View style={[styles.container]}>
-          <View>
-            <Image
-                style={{
-                  resizeMode: "contain",
-                  height: 200,
-                  width: 200
-                }}
-                source={require("../assets/2.png")}/>
-          </View>
-          <View style={[styles.card , styles.shadowProp]}>
-            <View style={[styles.TextInput]}>
-              <TextInput
-                  mode ="flat"
-                  label="Email"
-                  left={<TextInput.Icon name={'email'} />}
-                  keyboardType={'email-address'}
-                  value={username}
-                  onChangeText={setusername}
-                  onBlur={() =>
-                      username.length > 0 &&
-                      setEmailAddressValid(username.includes('@'))
-                  }
-              />
-              <HelperText type="error" visible={!emailAddressValid}>
-                Email address is invalid!
-              </HelperText>
-            </View>
-            <View style={[styles.TextInput]}>
-              <TextInput
-                  mode ="flat"
-                  label="password"
-                  onChangeText={setPassword}
-                  value ={password}
-                  left={<TextInput.Icon name={'lock'} />}
-                  right={
-                    <TextInput.Icon
-                        name={showPassword ? 'eye' : 'eye-off'}
-                        onPress={() => setShowPassword(!showPassword)}
-                    />
-                  }
-                  secureTextEntry={!showPassword}
-              />
-            </View>
-            <View>
-              <Button icon="login" mode="contained" onPress={()=> login(username,password).then().catch()}>
-                login
-              </Button>
-            </View>
-            <View>
-              <Text style={{fontSize:17 , color: '#ffffff'}}>{'Doesn\'t have an account? '}</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('SignUp')}>
-                <Text style={{fontSize:17,color:'#ff0000'}}>{'SignUp'}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-
+      <View style={[styles.container]}>
+        <View>
+          <Image
+            style={{
+              resizeMode: "contain",
+              height: 200,
+              width: 200
+            }}
+            source={require("../assets/2.png")} />
         </View>
-      </ScrollView>
+        <View style={[styles.card, styles.shadowProp]}>
+          <View style={[styles.TextInput]}>
+            <TextInput
+              mode="flat"
+              label="Email"
+              left={<TextInput.Icon name={'email'} />}
+              keyboardType={'email-address'}
+              value={username}
+              onChangeText={setusername}
+              onBlur={() =>
+                username.length > 0 &&
+                setEmailAddressValid(username.includes('@'))
+              }
+            />
+            <HelperText type="error" visible={!emailAddressValid}>
+              Email address is invalid!
+            </HelperText>
+          </View>
+          <View style={[styles.TextInput]}>
+            <TextInput
+              mode="flat"
+              label="password"
+              onChangeText={setPassword}
+              value={password}
+              left={<TextInput.Icon name={'lock'} />}
+              right={
+                <TextInput.Icon
+                  name={showPassword ? 'eye' : 'eye-off'}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              }
+              secureTextEntry={!showPassword}
+            />
+          </View>
+          <View>
+            <Button icon="login" mode="contained" onPress={() => login(username, password).then().catch()}>
+              login
+            </Button>
+          </View>
+          <View>
+            <Text style={{ fontSize: 17, color: '#ffffff' }}>{'Doesn\'t have an account? '}</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('SignUp')}>
+              <Text style={{ fontSize: 17, color: '#ff0000' }}>{'SignUp'}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+
+      </View>
+    </ScrollView>
   );
 }
 
@@ -91,9 +91,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    flexDirection : 'column',
+    flexDirection: 'column',
     justifyContent: 'center',
-    padding : 50 ,
+    padding: 50,
     margin: 12,
   },
   TextInput: {
