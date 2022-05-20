@@ -3,16 +3,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./db/Config";
+import { auth } from "./db/config";
 import { useState, useEffect , useRef } from "react";
 import Home from "./pages/Home";
 import Setting from './pages/Setting';
-import SignIn from './pages/signIn';
-import SignUp from './pages/signUp';
-import Profile from './pages/profile';
-import Products from './pages/products';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Profile from './pages/Profile';
+import Products from './pages/Products';
 import AboutUs from "./pages/AboutUs";
 import Payment from "./pages/Payment";
+import EmptyCart from "./pages/EmptyCart";
 import Icon , { Icons } from  "./components/Icons"
 import Colors from  "./components/Colors"
 import * as Animatable from 'react-native-animatable';
@@ -23,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const TabArr = [
     { route: 'Home', label: 'Home', type: Icons.Ionicons, activeIcon: 'home-outline', inActiveIcon: 'home-outline', component: Home },
-    { route: 'payment', label: 'payment', type: Icons.Ionicons, activeIcon: 'cart', inActiveIcon: 'cart-outline', component: Payment },
+    { route: 'empty cart', label: 'empty cart', type: Icons.Ionicons, activeIcon: 'cart', inActiveIcon: 'cart-outline', component: Payment },
     { route: 'Search', label: 'Search', type: Icons.Ionicons, activeIcon: 'search-circle', inActiveIcon: 'search-circle-outline', component: Search },
     { route: 'Profile', label: 'Profile', type: Icons.Ionicons, activeIcon: 'person-circle', inActiveIcon: 'person-circle-outline', component: Profile },
 ];
@@ -131,6 +132,7 @@ export default function App() {
             <Stack.Screen name="About Us" component={AboutUs} options={{ title: "About US" }} />
             <Stack.Screen name="setting" component={Setting} options={{ title: "Edit Profile" }} />
             <Stack.Screen name="payment" component={Payment} options={{ headerShown: false }} />
+            <Stack.Screen name="empty cart" component={EmptyCart} options={{ headerShown: false }} />
         </Stack.Navigator>
 
       </NavigationContainer>
@@ -138,7 +140,7 @@ export default function App() {
        : <NavigationContainer >
                <Stack.Navigator >
                    <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}} />
-                   <Stack.Screen name="SignUp" component={SignUp} options={{ title: "my SignUp page" }} />
+                   <Stack.Screen name="SignUp" component={SignUp} options={{ title: "SignUp" }} />
                </Stack.Navigator>
 
            </NavigationContainer>

@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Button  } from 'react-native-paper';
 import {editUsers, getUsers} from "../db/cities/Users";
 import {auth} from "../db/config";
 import {getCities, subscribe} from "../db/cities/Cities";
@@ -51,10 +52,24 @@ export default function Payment({ navigation }) {
       let temp = cart
       temp.push(product)
       setCart(temp)
-      console.log(product)
     })
-    console.log(usercart)
-    console.log(cart)
+  }
+
+
+  const removeProduct = async(id) =>{
+    const array = await getUsers()
+    const user = array.find(e => e.email === auth.currentUser.email)
+    var usercart = user.cart
+    for(var i = 0; i < usercart.length; i++){
+      if(usercart[i] === id){
+        usercart = usercart.splice(i, 1);
+      }
+    }
+    editUsers({
+      ...user,
+      cart: [...usercart]
+
+    })
   }
 
 
@@ -90,9 +105,7 @@ export default function Payment({ navigation }) {
 
             {cart.length > 0 ? (
                 <View>
-                  {cart
-
-                      .map((product) => (
+                  {cart.map((product) => (
                           <View style={styles.productView}>
                             <Image
                                 style={styles.productImage}
@@ -104,6 +117,9 @@ export default function Payment({ navigation }) {
                               <Text style={styles.productTitle}>{product.name}</Text>
                             </View>
                             <View style={styles.productRightView}>
+                              <Button icon="cart-remove" mode="text" color ="#000"  onPress={() =>[ removeProduct(product.id) , setCart(cart.filter(
+                                  (p) => p.id !== product.id))]}>
+                              </Button>
                               <Text
                                   style={styles.productPriceText}
                               >{`EGP ${product.price}`}</Text>
@@ -112,8 +128,7 @@ export default function Payment({ navigation }) {
                                     onPress={() => {
                                       if (product.count === 1) {
                                         return setCart(cart.filter(
-                                            (p) => p.id !== product.id))
-                                            ;
+                                            (p) => p.id !== product.id));
                                       }
                                       const newProd = {
                                         ...product,

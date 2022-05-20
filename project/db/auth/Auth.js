@@ -1,4 +1,4 @@
-import { auth } from "../Config";
+import { auth } from "../config";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -15,6 +15,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("We are authenticated now!");
   }
 });
+
 
 async function register(email, password) {
   await createUserWithEmailAndPassword(auth, email, password);

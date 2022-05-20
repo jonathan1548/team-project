@@ -1,4 +1,4 @@
-import { db } from "../Config";
+import { db } from "../config";
 import {
   getDocs,
   doc,

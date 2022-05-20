@@ -1,4 +1,4 @@
-import { db } from "../Config";
+import { db } from "../config";
 import {
   getDocs,
   doc,
@@ -14,7 +14,7 @@ import {
 async function getUsers() {
   const citiesCol = collection(db, "users");
   const citySnapshot = await getDocs(citiesCol);
-  console.log(citySnapshot);
+  // console.log(citySnapshot);
   const cityList = citySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };
   });
