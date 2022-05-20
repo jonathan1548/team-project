@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { TextInput } from 'react-native-paper';
+import { TextInput , Searchbar } from 'react-native-paper';
 import { getCities, subscribe } from '../db/cities/Cities';
 import { async } from '@firebase/util';
 import Product from '../pages/Product';
@@ -62,8 +62,8 @@ const Search = () => {
 		<ScrollView Vertical={true}>
 		<View style={{ backgroundColor: '' }}>
 			<View style={[ styles.TextInput ]}>
-				<TextInput placeholder="Search" value={searched} onChangeText={(e)=>{Searchp(e),setsearched(e)}}  />
-				<View style={{ paddingHorizontal: 2, paddingVertical: 15 }}>
+				<Searchbar  placeholder="Search" value={searched} onChangeText={(e)=>{Searchp(e),setsearched(e)}} />
+				<View style={{ paddingHorizontal: 2, paddingVertical: 15 , paddingBottom:55 }}>
 
 					
 						{data.map((e, index) => <Product item={e} key={index} />)}

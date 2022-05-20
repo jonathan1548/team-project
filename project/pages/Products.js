@@ -24,6 +24,7 @@ export default function Products({navigation}) {
                 getCitiesList();
             }
             if (change.type === "removed") {
+
                 getCitiesList();
             }
         });
@@ -91,7 +92,7 @@ export default function Products({navigation}) {
                     <IconButton style={[styles.iconView]}
                         icon="cart-outline"
                         size={20}
-                        onPress={() => {navigation.navigate('payment')}}
+                        onPress={() => {count === 0 ? navigation.navigate('empty cart'): navigation.navigate('payment')}}
                     />
                     <View style={[styles.iconCountView]}>
                         <Text style={styles.iconCountText}>{count}</Text>
@@ -113,7 +114,7 @@ export default function Products({navigation}) {
                                         <Card.Cover source={{ uri: itemData.item.image }}
                                         />
                                         <Card.Actions>
-                                            <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                            <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('empty cart'): navigation.navigate('payment')}}>Cart</Button>
                                         </Card.Actions>
                                     </Card>
                                 </TouchableOpacity>
