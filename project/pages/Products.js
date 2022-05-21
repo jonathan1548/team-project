@@ -5,7 +5,7 @@ import { IconButton} from 'react-native-paper';
 import Product from "./Product";
 import {getCities, subscribe} from "../db/cities/Cities";
 import {editUsers, getUsers , subscribeUsers} from "../db/cities/Users";
-import {auth} from "../db/Config";
+import {auth} from "../db/config";
 export default function Products({navigation}) {
     const getCitiesList = async () => {
         const c = await getCities();
