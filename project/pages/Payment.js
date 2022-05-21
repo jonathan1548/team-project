@@ -14,6 +14,7 @@ import {editUsers, getUsers} from "../db/cities/Users";
 import {auth} from "../db/config";
 import {getCities, subscribe} from "../db/cities/Cities";
 export default function Payment({ navigation }) {
+
   const getCitiesList = async () => {
     const c = await getCities();
     setCart(c);
@@ -72,7 +73,14 @@ export default function Payment({ navigation }) {
     })
   }
 
-
+  const getUsersList = async () => {
+    const c = await getUsers();
+    const user = c.find(e => e.email === auth.currentUser.email)
+    setCart(user.cart.length)
+};
+useEffect(() => {
+    getUsersList();
+}, []);
 
   const [shippingMethod, setShippingMethod] = useState('Normal');
 
@@ -148,6 +156,7 @@ export default function Payment({ navigation }) {
                                   />
                                 </TouchableOpacity>
                                 <Text style={styles.counterValue}>
+                                {product.count}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => {
