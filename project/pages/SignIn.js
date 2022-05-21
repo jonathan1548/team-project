@@ -12,8 +12,8 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import { login } from '../db/auth/auth';
-import { auth } from '../db/Config';
+import { login } from '../db/auth/Auth';
+import { auth } from '../db/config';
 
 export default function SignIn({ navigation }) {
   const [username, setusername] = useState('');
