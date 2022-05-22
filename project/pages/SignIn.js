@@ -79,6 +79,11 @@ export default function SignIn({ navigation }) {
                 <Text style={{fontSize:17,color:'#ff0000'}}>{'SignUp'}</Text>
               </TouchableOpacity>
             </View>
+            <View>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Forgetpassword')}>
+                <Text style={{fontSize:17,color:'#0B64F3'}}>{'ForgetPassword ?'}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
 

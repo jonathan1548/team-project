@@ -17,13 +17,10 @@ export default function Profile({navigation}) {
     const initialInfo = async () => {
         const array = await getUsers()
         const object = array.find(e => e.email === auth.currentUser.email)
-        console.log(object)
-        console.log(user)
         setEmail(object.email);
         setPassword(object.password);
         setId(object.username);
         setaddress(object.address)
-        console.log(array)
         setUser(array)
     }
     useEffect(() => {

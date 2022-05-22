@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, View,TouchableOpacity, FlatList} from 'react-native';
-import { Card , Button} from 'react-native-paper';
+import {StyleSheet, Text, View,TouchableOpacity, FlatList } from 'react-native';
+import { Card , Button , Title ,Paragraph} from 'react-native-paper';
 import { IconButton} from 'react-native-paper';
 import Product from "./Product";
 import {getCities, subscribe} from "../db/cities/Cities";
@@ -92,13 +92,13 @@ export default function Products({navigation}) {
                     <IconButton style={[styles.iconView]}
                         icon="cart-outline"
                         size={20}
-                        onPress={() => {count === 0 ? navigation.navigate('empty cart'): navigation.navigate('payment')}}
+                        onPress={() => { navigation.navigate('payment')}}
                     />
                     <View style={[styles.iconCountView]}>
                         <Text style={styles.iconCountText}>{count}</Text>
                     </View>
                 <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Sweet Group</Text>
-                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                <View style={{ display: 'flex', flex: 1, marginTop: 10 , paddingBottom : 5}} >
                         <FlatList
                             data={data}
                             numColumns={2}
@@ -113,8 +113,9 @@ export default function Products({navigation}) {
 
                                         <Card.Cover source={{ uri: itemData.item.image }}
                                         />
+                                        <Paragraph>price : {itemData.item.price} EGP</Paragraph>
                                         <Card.Actions>
-                                            <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('empty cart'): navigation.navigate('payment')}}>Cart</Button>
+                                            <Button icon="cart-outline" onPress={() => {navigation.navigate('payment')}}>Cart</Button>
                                         </Card.Actions>
                                     </Card>
                                 </TouchableOpacity>
@@ -124,7 +125,7 @@ export default function Products({navigation}) {
             </View>
             <View>
                 <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Eastern sweets</Text>
-                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                <View style={{ display: 'flex', flex: 1, marginTop: 10 , paddingBottom : 5}} >
                     <FlatList
                         data={data2}
                         numColumns={2}
@@ -139,8 +140,9 @@ export default function Products({navigation}) {
                                     <Card.Cover source={{ uri: itemData2.item.image }}
                                                 style={{  }}
                                     />
+                                    <Paragraph>price : {itemData2.item.price} EGP</Paragraph>
                                     <Card.Actions>
-                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                        <Button icon="cart-outline" onPress={() => {navigation.navigate('payment')}}>Cart</Button>
                                     </Card.Actions>
                                 </Card>
                             </TouchableOpacity>
@@ -150,7 +152,7 @@ export default function Products({navigation}) {
             </View>
             <View>
                 <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Sugar Free Sweets</Text>
-                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                <View style={{ display: 'flex', flex: 1, marginTop: 10 , paddingBottom : 5}} >
                     <FlatList
                         data={data3}
                         numColumns={2}
@@ -164,8 +166,9 @@ export default function Products({navigation}) {
                                     onPress={() => {setCount(count + 1)}}>
                                     <Card.Cover source={{ uri: itemData3.item.image }}
                                     />
+                                     <Paragraph>price : {itemData3.item.price} EGP</Paragraph>
                                     <Card.Actions>
-                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                        <Button icon="cart-outline" onPress={() => {navigation.navigate('payment')}}>Cart</Button>
                                     </Card.Actions>
                                 </Card>
                             </TouchableOpacity>
@@ -175,7 +178,7 @@ export default function Products({navigation}) {
             </View>
             <View>
                 <Text style={[styles.textWithShadow, styles.card, styles.shadowProp]}>Hamper Boxs</Text>
-                <View style={{ display: 'flex', flex: 1, marginTop: 24 }} >
+                <View style={{ display: 'flex', flex: 1, marginTop: 10 , paddingBottom : 5}} >
                     <FlatList
                         data={data4}
                         numColumns={2}
@@ -189,8 +192,9 @@ export default function Products({navigation}) {
                                     onPress={() => {setCount(count + 1)}}>
                                     <Card.Cover source={{ uri: itemData4.item.image }}
                                     />
+                                    <Paragraph>price : {itemData4.item.price} EGP</Paragraph>
                                     <Card.Actions>
-                                        <Button icon="cart-outline" onPress={() => {count === 0 ? navigation.navigate('EmptyCart'): navigation.navigate('payment')}}>Cart</Button>
+                                        <Button icon="cart-outline" onPress={() => {navigation.navigate('payment')}}>Cart</Button>
                                     </Card.Actions>
                                 </Card>
                             </TouchableOpacity>
