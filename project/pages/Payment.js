@@ -17,7 +17,6 @@ export default function Payment({ navigation }) {
 
   const getCitiesList = async () => {
     const c = await getCities();
-    setCart(c);
   };
   useEffect(() => {
     getCitiesList();
@@ -56,7 +55,6 @@ export default function Payment({ navigation }) {
     })
   }
 
-
   const removeProduct = async(id) =>{
     const array = await getUsers()
     const user = array.find(e => e.email === auth.currentUser.email)
@@ -65,7 +63,9 @@ export default function Payment({ navigation }) {
       if(usercart[i] === id){
         usercart = usercart.splice(i, 1);
       }
+    
     }
+    // usercart = usercart.filter(item => item.id !== id)
     editUsers({
       ...user,
       cart: [...usercart]

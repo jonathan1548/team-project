@@ -18,6 +18,8 @@ import Icon , { Icons } from  "./components/Icons"
 import Colors from  "./components/Colors"
 import * as Animatable from 'react-native-animatable';
 import Search from './search/Search';
+import ForgetPassword from './pages/ForgetPassword';
+import Utils from './pages/Utils';
 
 const Stack = createNativeStackNavigator();
 
@@ -132,15 +134,18 @@ export default function App() {
             <Stack.Screen name="About Us" component={AboutUs} options={{ title: "About US" }} />
             <Stack.Screen name="setting" component={Setting} options={{ title: "Edit Profile" }} />
             <Stack.Screen name="payment" component={Payment} options={{ headerShown: false }} />
-            <Stack.Screen name="empty cart" component={EmptyCart} options={{ headerShown: false }} />
+            {/* <Stack.Screen name="empty cart" component={EmptyCart} options={{ headerShown: false }} /> */}
+            <Stack.Screen name="Forgetpassword" component={ForgetPassword} options={{ headerShown: false }} />
         </Stack.Navigator>
 
       </NavigationContainer>
 
        : <NavigationContainer >
                <Stack.Navigator >
+                    <Stack.Screen name="utils" component={Utils} options={{headerShown: false}} />
                    <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: false}} />
                    <Stack.Screen name="SignUp" component={SignUp} options={{ title: "SignUp" }} />
+                   <Stack.Screen name="Forgetpassword" component={ForgetPassword} options={{ title: "Forget Password" }} />
                </Stack.Navigator>
 
            </NavigationContainer>

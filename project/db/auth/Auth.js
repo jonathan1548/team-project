@@ -27,5 +27,9 @@ async function login(email, password) {
 async  function logOut(){
   auth.signOut();
 }
+async function sendRequestOfChangingPassword(email) {
+  console.log('begin the method sendRequestOfChangingPassword with email=', email);
+  sendPasswordResetEmail(auth, email);
+}
 
-export { register, login,logOut };
+export { register, login,logOut , sendRequestOfChangingPassword };
